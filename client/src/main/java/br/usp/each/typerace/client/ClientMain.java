@@ -15,7 +15,6 @@ public class ClientMain {
 
     public void init(String idCliente) {
         System.out.println("Iniciando cliente: " + idCliente);
-        // TODO: Implementar
     }
 
     public static void main(String[] args) {
@@ -25,7 +24,8 @@ public class ClientMain {
            ele deve se conectar e o seu ID?
         */
         String removeMe = "ws://localhost:8080";
-        String removeMe2 = "idCliente";
+        String removeMe2 = "Gilmar";
+
 
         try {
             WebSocketClient client = new Client(new URI(removeMe));

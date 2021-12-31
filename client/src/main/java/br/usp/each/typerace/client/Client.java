@@ -13,21 +13,21 @@ public class Client extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        // TODO: Implementar
+        System.out.println("conectado à: " + handshakedata.getHttpStatusMessage());
     }
 
     @Override
     public void onMessage(String message) {
-        // TODO: Implementar
+        System.out.println(message);
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        // TODO: Implementar
+        System.out.println("Você se desconectou de: " + getURI() + "; Codigo: " + code + " " + reason + "\n");
     }
 
     @Override
     public void onError(Exception ex) {
-        // TODO: Implementar
+        System.out.println("Erro ocorreu em...\n" + ex + "\n");
     }
 }
