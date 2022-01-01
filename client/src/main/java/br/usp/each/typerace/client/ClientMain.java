@@ -2,9 +2,6 @@ package br.usp.each.typerace.client;
 
 import org.java_websocket.client.WebSocketClient;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 public class ClientMain {
 
     private WebSocketClient client;
@@ -23,18 +20,17 @@ public class ClientMain {
            Como podemos fazer para que o cliente receba um parâmetro indicando a qual servidor
            ele deve se conectar e o seu ID?
         */
-        String removeMe = "ws://localhost:8080";
-        String removeMe2 = "Gilmar";
+
+        String endereco = "ws://localhost:3004";
+
+        ClientPage pg1 = new ClientPage(endereco);
+        ClientPage pg2 = new ClientPage(endereco);
+
+        while (!pg1.isConectado() || !pg2.isConectado()) {}
+
+        ClientMain cara1 = new ClientMain(pg1.getCliente());
+        ClientMain cara2 = new ClientMain(pg2.getCliente());
 
 
-        try {
-            WebSocketClient client = new Client(new URI(removeMe));
-
-            ClientMain main = new ClientMain(client);
-
-            main.init(removeMe2);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
     }
 }
