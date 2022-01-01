@@ -30,7 +30,7 @@ public class ClientMain {
         // Fica travado no loop até que os clientes se conectem
         while (!pg1.isConectado() || !pg2.isConectado()) {}
 
-        // Caso ambos se conectem são criados dois objetos ClientMain com os CLients conectados
+        // Caso ambos se conectem são criados dois objetos ClientMain com os CLients conectados 
         ClientMain cara1 = new ClientMain(pg1.getCliente());
         ClientMain cara2 = new ClientMain(pg2.getCliente());
 

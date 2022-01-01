@@ -151,7 +151,7 @@ public class ClientPage extends JFrame implements ActionListener {
 
     public void conectar() {
         try {
-            cliente = new Client(new URI(uriServidor.getText()), container, chatPublico);
+            cliente = new Client(new URI(uriServidor.getText()), this);
             nome = entradaNome.getText();
             sair.setEnabled(true);
             conectar.setEnabled(false);
@@ -186,5 +186,21 @@ public class ClientPage extends JFrame implements ActionListener {
 
     public boolean isConectado() {
         return conectado;
+    }
+
+    public JTextField getUriServidor() {
+        return uriServidor;
+    }
+
+    public JButton getConectar() {
+        return conectar;
+    }
+
+    public JButton getSair() {
+        return sair;
+    }
+
+    public JTextArea getChatPublico() {
+        return chatPublico;
     }
 }

@@ -4,7 +4,6 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import javax.swing.*;
-import java.awt.*;
 import java.net.URI;
 
 public class Client extends WebSocketClient {
@@ -14,12 +13,12 @@ public class Client extends WebSocketClient {
     private final JButton sair;
     private final JTextArea chatPublico;
 
-    public Client(URI serverUri, Container c, JTextArea chatPublico) {
+    public Client(URI serverUri, ClientPage pg) {
         super(serverUri);
-        this.uriServidor = (JTextField) c.getComponent(1);
-        this.conectar = (JButton) c.getComponent(2);
-        this.sair = (JButton) c.getComponent(3);
-        this.chatPublico = chatPublico;
+        this.uriServidor = pg.getUriServidor();
+        this.conectar = pg.getConectar();
+        this.sair = pg.getSair();
+        this.chatPublico = pg.getChatPublico();
     }
 
     @Override
