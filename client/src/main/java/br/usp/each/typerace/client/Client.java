@@ -30,6 +30,7 @@ public class Client extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshake) {
         chatPublico.append("Você está conectado a: " + getURI() + "\n");
+        chatPublico.append("Handshake: " + handshake + "\n");
         chatPublico.setCaretPosition(chatPublico.getDocument().getLength());
     }
 

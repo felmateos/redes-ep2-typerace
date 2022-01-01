@@ -18,25 +18,26 @@ public class ClientPage extends JFrame implements ActionListener {
     private final JTextField entradaMsg;
     private final JTextField entradaNome;
     private WebSocketClient cliente;
-    private final Container container;
     private String nome;
     private boolean conectado = false;
+
+    // Cores
+    Color lightGreen = new Color(154, 245, 120);
+    Color darkGreen = new Color(87, 203, 29);
+    Color disabledGreen = new Color(67, 107, 62);
+
+    Color lightRed = new Color(241, 101, 101);
+    Color darkRed = new Color(201, 42, 42);
+    Color disabledRed = new Color(117, 57, 57);
 
     public ClientPage(String defaultlocation) {
         super("WebSocket typerace");
 
-        // Cores
-        Color lightGreen = new Color(146, 227, 116);
-        Color darkGreen = new Color(85, 183, 35);
-
-        Color lightRed = new Color(241, 101, 101);
-        Color darkRed = new Color(183, 40, 40);
-
         // Grid para organizar o container
         GridBagConstraints grid = new GridBagConstraints();
 
-        // container para comportar os elementos
-        container = getContentPane();
+        // Container para comportar os elementos
+        Container container = getContentPane();
         container.setLayout(new GridBagLayout());
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         container.setBackground(Color.DARK_GRAY);
@@ -72,7 +73,7 @@ public class ClientPage extends JFrame implements ActionListener {
         conectar.setForeground(lightGreen);
         grid.fill = GridBagConstraints.HORIZONTAL;
         grid.gridwidth = 1;
-        grid.weightx = 0.5;
+        grid.weightx = 0.4;
         grid.gridx = 0;
         grid.gridy = 2;
         container.add(conectar, grid);
@@ -81,10 +82,10 @@ public class ClientPage extends JFrame implements ActionListener {
         sair = new JButton("Sair");
         sair.addActionListener(this);
         sair.setEnabled(false);
-        sair.setBackground(darkRed);
+        sair.setBackground(disabledRed);
         sair.setForeground(lightRed);
         grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.weightx = 0.5;
+        grid.weightx = 0.6;
         grid.gridwidth = 1;
         grid.gridx = 1;
         grid.gridy = 2;
@@ -130,7 +131,7 @@ public class ClientPage extends JFrame implements ActionListener {
         setPreferredSize(d);
         setSize(d);
 
-        //Verifica se a janela foi fechada
+        // Verifica se a janela foi fechada
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -158,6 +159,8 @@ public class ClientPage extends JFrame implements ActionListener {
             uriServidor.setEditable(false);
             entradaNome.setEditable(false);
             cliente.connect();
+            conectar.setBackground(disabledGreen);
+            sair.setBackground(darkRed);
             conectado = true;
         } catch (URISyntaxException ex) {
             chatPublico.append(uriServidor.getText() + " não é um valor válido\n");
@@ -167,6 +170,8 @@ public class ClientPage extends JFrame implements ActionListener {
     public void sair() {
         cliente.close();
         entradaNome.setEditable(true);
+        sair.setBackground(disabledRed);
+        conectar.setBackground(darkGreen);
     }
 
     public void entradaMsg() {
@@ -184,10 +189,6 @@ public class ClientPage extends JFrame implements ActionListener {
         return cliente;
     }
 
-    public boolean isConectado() {
-        return conectado;
-    }
-
     public JTextField getUriServidor() {
         return uriServidor;
     }
@@ -202,5 +203,9 @@ public class ClientPage extends JFrame implements ActionListener {
 
     public JTextArea getChatPublico() {
         return chatPublico;
+    }
+
+    public boolean isConectado() {
+        return conectado;
     }
 }

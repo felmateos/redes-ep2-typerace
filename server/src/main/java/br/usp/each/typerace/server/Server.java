@@ -10,6 +10,7 @@ import java.util.Map;
 public class Server extends WebSocketServer {
 
     private final Map<String, WebSocket> connections;
+    private final String palavra = "pimba";
 
     public Server(int port, Map<String, WebSocket> connections) {
         super(new InetSocketAddress(port));
@@ -21,6 +22,7 @@ public class Server extends WebSocketServer {
         conn.send("Bem vindo ao servidor!"); //Msg para o new client
         broadcast("nova conexão: " + handshake.toString()); //Msg p tds os clients
         System.out.println(conn + " entrou no servidor!"); //Msg p server
+        connections.put(conn.toString().split("@")[1], conn);
     }
 
     @Override
@@ -32,6 +34,9 @@ public class Server extends WebSocketServer {
     @Override
     public void onMessage(WebSocket conn, String message) {
         broadcast(message);
+        String messageC = message.split(": ")[1];
+        if (messageC.equals("start")) broadcast(palavra);
+        if (messageC.equals(palavra)) broadcast("pimbada");
         System.out.println(conn + " - " + message);
     }
 
