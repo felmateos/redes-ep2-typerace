@@ -23,11 +23,14 @@ public class ClientMain {
 
         String endereco = "ws://localhost:3004";
 
+        // Duas paginas de clientes para teste
         ClientPage pg1 = new ClientPage(endereco);
         ClientPage pg2 = new ClientPage(endereco);
 
+        // Fica travado no loop até que os clientes se conectem
         while (!pg1.isConectado() || !pg2.isConectado()) {}
 
+        // Caso ambos se conectem são criados dois objetos ClientMain com os CLients conectados
         ClientMain cara1 = new ClientMain(pg1.getCliente());
         ClientMain cara2 = new ClientMain(pg2.getCliente());
 
