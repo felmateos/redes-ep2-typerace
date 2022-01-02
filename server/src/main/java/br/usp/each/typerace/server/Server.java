@@ -5,12 +5,13 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
-import java.util.Map;
+import java.util.*;
 
 public class Server extends WebSocketServer {
 
     private final Map<String, WebSocket> connections;
-    private final String palavra = "pimba";
+    private final List<String> palavras = new ArrayList<>(Arrays.asList("a","b","c"));
+    private boolean start = false;
 
     public Server(int port, Map<String, WebSocket> connections) {
         super(new InetSocketAddress(port));
@@ -23,20 +24,19 @@ public class Server extends WebSocketServer {
         broadcast("nova conexão: " + handshake.toString()); //Msg p tds os clients
         System.out.println(conn + " entrou no servidor!"); //Msg p server
         connections.put(conn.toString().split("@")[1], conn);
+        broadcast("conexoes: " + connections.size());
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        broadcast(conn + " saiu do servidor!");
+        broadcast(connections.remove(conn.toString().split("@")[1]) + " saiu do servidor!");
         System.out.println(conn + " saiu do servidor!");
     }
 
     @Override
     public void onMessage(WebSocket conn, String message) {
         broadcast(message);
-        String messageC = message.split(": ")[1];
-        if (messageC.equals("start")) broadcast(palavra);
-        if (messageC.equals(palavra)) broadcast("pimbada");
+        verificaMensagem(conn, message);
         System.out.println(conn + " - " + message);
     }
 
@@ -53,5 +53,16 @@ public class Server extends WebSocketServer {
         System.out.println("Servidor pronto!");
         setConnectionLostTimeout(0);
         setConnectionLostTimeout(100);
+    }
+
+    public void verificaMensagem(WebSocket conn, String message) {
+        String messageC = message.split(": ")[1];
+        if (!start && messageC.equals("start")) {
+            broadcast("Typerace iniciado\nLista de palavras: ");
+            start = true;
+            for (String p: palavras) broadcast(p);
+        }
+        if (start && palavras.contains(messageC))
+            broadcast(conn + " acertou");
     }
 }

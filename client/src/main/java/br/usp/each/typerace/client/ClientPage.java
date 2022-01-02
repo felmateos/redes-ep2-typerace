@@ -73,7 +73,7 @@ public class ClientPage extends JFrame implements ActionListener {
         conectar.setForeground(lightGreen);
         grid.fill = GridBagConstraints.HORIZONTAL;
         grid.gridwidth = 1;
-        grid.weightx = 0.4;
+        grid.weightx = 0.45;
         grid.gridx = 0;
         grid.gridy = 2;
         container.add(conectar, grid);
@@ -85,7 +85,7 @@ public class ClientPage extends JFrame implements ActionListener {
         sair.setBackground(disabledRed);
         sair.setForeground(lightRed);
         grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.weightx = 0.6;
+        grid.weightx = 0.55;
         grid.gridwidth = 1;
         grid.gridx = 1;
         grid.gridy = 2;
