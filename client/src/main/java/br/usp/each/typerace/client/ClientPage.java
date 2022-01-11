@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 public class ClientPage extends JFrame implements ActionListener {
 
     private final JTextField uriServidor;
+    private final JTextArea containerLista;
     private final JButton conectar;
     private final JButton sair;
     private final JTextArea chatPublico;
@@ -67,12 +68,31 @@ public class ClientPage extends JFrame implements ActionListener {
         setGrid(1, 2, 0, 1);
         container.add(uriServidor, grid);
 
+        // Area onde as mensagens do servidor e dos usuarios aparecem
+        JScrollPane listScroll = new JScrollPane();
+        listScroll.setBackground(Color.BLACK);
+        listScroll.setForeground(Color.LIGHT_GRAY);
+        listScroll.setBorder(new LineBorder(Color.DARK_GRAY, 2));
+        containerLista = new JTextArea();
+        containerLista.setBorder(new LineBorder(Color.DARK_GRAY, 0));
+        containerLista.setBackground(Color.BLACK);
+        containerLista.setForeground(Color.LIGHT_GRAY);
+        containerLista.setEditable(false);
+        containerLista.setText("Assim que a partida comecar, a lista de palavras ira aparecer abaixo:\n");
+        listScroll.setViewportView(containerLista);
+        listScroll.getComponent(0);
+        setGrid(2, 2, 0, 3);
+        grid.ipady = 200;
+        container.add(listScroll, grid);
+
+        grid.ipady = 10;
+
         // Botão para se conectar
         conectar = new JButton("Conectar");
         conectar.addActionListener(this);
         conectar.setBackground(darkGreen);
         conectar.setForeground(lightGreen);
-        setGrid(1, 1, 0, 2);
+        setGrid(1, 1, 0, 5);
         grid.weightx = 0.45;
         container.add(conectar, grid);
 
@@ -82,7 +102,7 @@ public class ClientPage extends JFrame implements ActionListener {
         sair.setEnabled(false);
         sair.setBackground(disabledRed);
         sair.setForeground(lightRed);
-        setGrid(1, 1, 1, 2);
+        setGrid(1, 1, 1, 5);
         grid.weightx = 0.55;
         container.add(sair, grid);
 
@@ -98,23 +118,23 @@ public class ClientPage extends JFrame implements ActionListener {
         chatPublico.setEditable(false);
         scroll.setViewportView(chatPublico);
         scroll.getComponent(0);
-        setGrid(2, 2, 0, 3);
+        setGrid(2, 2, 0, 6);
         grid.ipady = 200;
         container.add(scroll, grid);
 
         // Area onde o usuario digita sua mensagem
         entradaMsg = new JTextField();
-        entradaMsg.setText("");
+        entradaMsg.setText("Digite aqui...");
         entradaMsg.setBorder(new LineBorder(Color.DARK_GRAY, 2));
         entradaMsg.setBackground(Color.BLACK);
         entradaMsg.setForeground(Color.LIGHT_GRAY);
         entradaMsg.addActionListener(this);
-        setGrid(1, 2, 0, 6);
+        setGrid(1, 2, 0, 8);
         grid.ipady = 20;
         container.add(entradaMsg, grid);
 
         // Tamanho do container
-        java.awt.Dimension d = new java.awt.Dimension(400, 368);
+        java.awt.Dimension d = new java.awt.Dimension(400, 600);
         setPreferredSize(d);
         setSize(d);
 
@@ -196,6 +216,10 @@ public class ClientPage extends JFrame implements ActionListener {
 
     public JButton getSair() {
         return sair;
+    }
+
+    public JTextArea getContainerLista() {
+        return containerLista;
     }
 
     public JTextArea getChatPublico() {

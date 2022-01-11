@@ -80,7 +80,7 @@ public class LaunchPage extends JFrame implements ActionListener {
         rulesContainer.setBackground(Color.BLACK);
         rulesContainer.setForeground(Color.LIGHT_GRAY);
         rulesContainer.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        rulesContainer.setText("regras:");
+        rulesContainer.setText("Instrucoes:\nregras:");
         rulesContainer.setEditable(false);
         scroll.setViewportView(rulesContainer);
         scroll.getComponent(0);

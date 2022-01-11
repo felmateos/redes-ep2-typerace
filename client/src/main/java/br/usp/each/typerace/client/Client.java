@@ -11,20 +11,30 @@ public class Client extends WebSocketClient {
     private final JTextField uriServidor;
     private final JButton conectar;
     private final JButton sair;
+    private final JTextArea containerLista;
     private final JTextArea chatPublico;
+    private String id;
 
-    public Client(URI serverUri, ClientPage pg) {
+    public Client(URI serverUri, ClientPage cp) {
         super(serverUri);
-        this.uriServidor = pg.getUriServidor();
-        this.conectar = pg.getConectar();
-        this.sair = pg.getSair();
-        this.chatPublico = pg.getChatPublico();
+        this.uriServidor = cp.getUriServidor();
+        this.conectar = cp.getConectar();
+        this.sair = cp.getSair();
+        this.containerLista = cp.getContainerLista();
+        this.chatPublico = cp.getChatPublico();
     }
 
     @Override
     public void onMessage(String message) {
-        chatPublico.append(message + "\n");
+        if (message.contains("@L: ")) {
+            containerLista.append("[ ]" + message.split("@L: ")[1] + "\n");
+        } else chatPublico.append(message + "\n");
+        if (message.contains("Seu id: ")) {
+            id = message.split("Seu id: ")[1];
+            this.send(id);
+        }
         chatPublico.setCaretPosition(chatPublico.getDocument().getLength());
+        containerLista.setCaretPosition(containerLista.getDocument().getLength());
     }
 
     @Override
