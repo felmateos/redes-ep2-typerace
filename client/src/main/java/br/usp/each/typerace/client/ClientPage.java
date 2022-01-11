@@ -20,6 +20,10 @@ public class ClientPage extends JFrame implements ActionListener {
     private WebSocketClient cliente;
     private String nome;
     private boolean conectado = false;
+    private final LaunchPage lp;
+
+    // Grid para organizar o container
+    private GridBagConstraints grid = new GridBagConstraints();
 
     // Cores
     Color lightGreen = new Color(154, 245, 120);
@@ -30,11 +34,10 @@ public class ClientPage extends JFrame implements ActionListener {
     Color darkRed = new Color(201, 42, 42);
     Color disabledRed = new Color(117, 57, 57);
 
-    public ClientPage(String defaultlocation) {
+    public ClientPage(String endereco, LaunchPage lp) {
         super("WebSocket typerace");
 
-        // Grid para organizar o container
-        GridBagConstraints grid = new GridBagConstraints();
+        this.lp = lp;
 
         // Container para comportar os elementos
         Container container = getContentPane();
@@ -42,13 +45,14 @@ public class ClientPage extends JFrame implements ActionListener {
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         container.setBackground(Color.DARK_GRAY);
 
+        grid.fill = GridBagConstraints.HORIZONTAL;
+
         // Area para o usuario digitar o seu apelido dentro da aplicação
         entradaNome = new JTextField();
         entradaNome.setBorder(new LineBorder(Color.DARK_GRAY, 2));
         entradaNome.setBackground(Color.BLACK);
         entradaNome.setForeground(Color.LIGHT_GRAY);
         entradaNome.setText("insira o seu apelido aqui...");
-        grid.fill = GridBagConstraints.HORIZONTAL;
         grid.gridwidth = 2;
         grid.gridx = 0;
         grid.gridy = 0;
@@ -56,14 +60,11 @@ public class ClientPage extends JFrame implements ActionListener {
 
         // Endereço do servidor local
         uriServidor = new JTextField();
-        uriServidor.setText(defaultlocation);
+        uriServidor.setText(endereco);
         uriServidor.setBorder(new LineBorder(Color.DARK_GRAY, 2));
         uriServidor.setForeground(Color.LIGHT_GRAY);
         uriServidor.setBackground(Color.BLACK);
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.gridwidth = 2;
-        grid.gridx = 0;
-        grid.gridy = 1;
+        setGrid(1, 2, 0, 1);
         container.add(uriServidor, grid);
 
         // Botão para se conectar
@@ -71,11 +72,8 @@ public class ClientPage extends JFrame implements ActionListener {
         conectar.addActionListener(this);
         conectar.setBackground(darkGreen);
         conectar.setForeground(lightGreen);
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.gridwidth = 1;
+        setGrid(1, 1, 0, 2);
         grid.weightx = 0.45;
-        grid.gridx = 0;
-        grid.gridy = 2;
         container.add(conectar, grid);
 
         // Botão para se desconectar
@@ -84,11 +82,8 @@ public class ClientPage extends JFrame implements ActionListener {
         sair.setEnabled(false);
         sair.setBackground(disabledRed);
         sair.setForeground(lightRed);
-        grid.fill = GridBagConstraints.HORIZONTAL;
+        setGrid(1, 1, 1, 2);
         grid.weightx = 0.55;
-        grid.gridwidth = 1;
-        grid.gridx = 1;
-        grid.gridy = 2;
         container.add(sair, grid);
 
         // Area onde as mensagens do servidor e dos usuarios aparecem
@@ -103,12 +98,8 @@ public class ClientPage extends JFrame implements ActionListener {
         chatPublico.setEditable(false);
         scroll.setViewportView(chatPublico);
         scroll.getComponent(0);
-        grid.fill = GridBagConstraints.HORIZONTAL;
+        setGrid(2, 2, 0, 3);
         grid.ipady = 200;
-        grid.gridwidth = 2;
-        grid.gridheight = 2;
-        grid.gridx = 0;
-        grid.gridy = 3;
         container.add(scroll, grid);
 
         // Area onde o usuario digita sua mensagem
@@ -118,12 +109,8 @@ public class ClientPage extends JFrame implements ActionListener {
         entradaMsg.setBackground(Color.BLACK);
         entradaMsg.setForeground(Color.LIGHT_GRAY);
         entradaMsg.addActionListener(this);
-        grid.fill = GridBagConstraints.HORIZONTAL;
+        setGrid(1, 2, 0, 6);
         grid.ipady = 20;
-        grid.gridwidth = 2;
-        grid.gridheight = 1;
-        grid.gridx = 0;
-        grid.gridy = 6;
         container.add(entradaMsg, grid);
 
         // Tamanho do container
@@ -144,6 +131,7 @@ public class ClientPage extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == conectar) conectar();
         else if (e.getSource() == sair) sair();
@@ -162,6 +150,8 @@ public class ClientPage extends JFrame implements ActionListener {
             conectar.setBackground(disabledGreen);
             sair.setBackground(darkRed);
             conectado = true;
+            lp.hasConnection = true;
+            lp.lwsc.add(cliente);
         } catch (URISyntaxException ex) {
             chatPublico.append(uriServidor.getText() + " não é um valor válido\n");
         }
@@ -183,6 +173,13 @@ public class ClientPage extends JFrame implements ActionListener {
             chatPublico.append("usuario não conectado!\n");
             chatPublico.setCaretPosition(chatPublico.getDocument().getLength());
         }
+    }
+
+    private void setGrid(int gridheight, int gridwidth, int gridx, int gridy) {
+        grid.gridheight = gridheight;
+        grid.gridwidth = gridwidth;
+        grid.gridx = gridx;
+        grid.gridy = gridy;
     }
 
     public WebSocketClient getCliente() {
