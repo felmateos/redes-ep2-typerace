@@ -70,10 +70,8 @@ public class Server extends WebSocketServer {
 
     public void iniciaPartida() {
         try {
-            for (String conn : connections.keySet()) {
-                System.out.println(conn);
+            for (String conn : connections.keySet())
                 geraEstatisticas(conn);
-            }
             broadcast("CP: Websocket Typerace sera iniciado em: ");
             Thread.sleep(1000);
             broadcast("CP: 3");
@@ -110,9 +108,8 @@ public class Server extends WebSocketServer {
         verificaTerminoPartida();
     }
     private void verificaTerminoPartida() {
-        for (String id : estatisticas.keySet()) {
+        for (String id : estatisticas.keySet())
             if (!estatisticas.get(id).terminou) return;
-        }
         finalizaJogo();
     }
 

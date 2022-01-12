@@ -81,7 +81,15 @@ public class LaunchPage extends JFrame implements ActionListener {
         rulesContainer.setBackground(Color.BLACK);
         rulesContainer.setForeground(Color.LIGHT_GRAY);
         rulesContainer.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        rulesContainer.setText("Instrucoes:\nregras:");
+        rulesContainer.setText("Instrucoes:\n" +
+                " - Clique no botao \"Novo Jogador\" para abrir a\ninterface do usuario (Voce pode gerar quantas\nquiser para testar);\n\n" +
+                " - Apos isso voce podera escolher um nome e um\nservidor para se conectar (por padrao sera\nws://localhost:3004);\n\n" +
+                " - Qualquer jogador conectado ao servidor podera \ndar inicio a partida enviando a mensagem\n \"start\" (sem as aspas);\n\n" +
+                "regras:\n" +
+                " - Assim que for dado sinal para iniciar a partida, \nsera iniciada uma contagem regressiva de\n3 segundos e uma lista de palavras sera exibida na\nparte superior da interface;\n\n" +
+                " - O usuario deve digitar corretamente as palavras\nno menor tempo possivel, na ordem que\ndesejar;\n\n" +
+                " - Assim que todos os usuarios digitarem todas as\nsuas respectivas palavras, no mesmo compartimento\nque se encontrava a lista, aparecerao\nos resultados da partida;\n\n"
+                );
         rulesContainer.setEditable(false);
         scroll.setViewportView(rulesContainer);
         scroll.getComponent(0);
