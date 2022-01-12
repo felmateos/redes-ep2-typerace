@@ -26,8 +26,12 @@ public class ClientMain {
         LaunchPage lp = new LaunchPage(endereco);
         //new ClientPage(endereco, lp);
 
-        while(!lp.hasConnection) {}
-
+        while(true) {
+            if (lp.hasConnection) {
+                lp.getRulesContainer().setText("Conectado");
+                break;
+            }
+        }
         ClientMain cm1 = new ClientMain(lp.lwsc.get(0));
         if (lp.lwsc.size() > 1) {
             for (WebSocketClient c : lp.lwsc)

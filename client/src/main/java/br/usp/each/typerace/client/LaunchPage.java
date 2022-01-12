@@ -25,6 +25,7 @@ public class LaunchPage extends JFrame implements ActionListener {
 
     Color lightGreen = new Color(154, 245, 120);
     Color darkGreen = new Color(87, 203, 29);
+    Color disabledGreen = new Color(67, 107, 62);
 
     Color lightRed = new Color(241, 101, 101);
     Color darkRed = new Color(201, 42, 42);
@@ -128,7 +129,10 @@ public class LaunchPage extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == newPlayer) startNewPlayerPage();
-        else if (e.getSource() == close) dispose();
+        else if (e.getSource() == close) {
+            dispose();
+            System.exit(0);
+        }
     }
 
     private void startNewPlayerPage() {
@@ -141,5 +145,14 @@ public class LaunchPage extends JFrame implements ActionListener {
         grid.gridwidth = gridwidth;
         grid.gridx = gridx;
         grid.gridy = gridy;
+    }
+
+    public void iniciado() {
+        newPlayer.setEnabled(false);
+        newPlayer.setBackground(disabledGreen);
+    }
+
+    public JTextArea getRulesContainer() {
+        return rulesContainer;
     }
 }

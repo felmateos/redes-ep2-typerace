@@ -160,7 +160,7 @@ public class ClientPage extends JFrame implements ActionListener {
 
     public void conectar() {
         try {
-            cliente = new Client(new URI(uriServidor.getText()), this);
+            cliente = new Client(new URI(uriServidor.getText()), this, lp);
             nome = entradaNome.getText();
             sair.setEnabled(true);
             conectar.setEnabled(false);
@@ -202,6 +202,11 @@ public class ClientPage extends JFrame implements ActionListener {
         grid.gridy = gridy;
     }
 
+    public void iniciado() {
+        sair.setEnabled(false);
+        sair.setBackground(disabledRed);
+    }
+
     public WebSocketClient getCliente() {
         return cliente;
     }
@@ -228,5 +233,9 @@ public class ClientPage extends JFrame implements ActionListener {
 
     public boolean isConectado() {
         return conectado;
+    }
+
+    public JTextField getEntradaMsg() {
+        return entradaMsg;
     }
 }
