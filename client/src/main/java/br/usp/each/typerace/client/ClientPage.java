@@ -207,6 +207,11 @@ public class ClientPage extends JFrame implements ActionListener {
         sair.setBackground(disabledRed);
     }
 
+    public void finalizado() {
+        sair.setEnabled(true);
+        sair.setBackground(darkRed);
+    }
+
     public WebSocketClient getCliente() {
         return cliente;
     }

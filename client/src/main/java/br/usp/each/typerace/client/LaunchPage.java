@@ -152,6 +152,11 @@ public class LaunchPage extends JFrame implements ActionListener {
         newPlayer.setBackground(disabledGreen);
     }
 
+    public void finalizado() {
+        newPlayer.setEnabled(true);
+        newPlayer.setBackground(darkGreen);
+    }
+
     public JTextArea getRulesContainer() {
         return rulesContainer;
     }

@@ -36,8 +36,9 @@ public class Client extends WebSocketClient {
     public void onMessage(String message) {
         if (message.contains("CP")) {
             if (message.contains("VAI!")) inicia();
-            if (message.contains("Seu id: ")) id = message.split("Seu id: ")[1];
-            if (message.contains("acertou") && message.contains(id)) removePalavra(message.split(": ")[2]);
+            else if (message.contains("Seu id: ")) id = message.split("Seu id: ")[1];
+            else if (message.contains("acertou") && message.contains(id)) removePalavra(message.split(": ")[2]);
+            else if (message.contains("Partida encerrada!")) finaliza();
             chatPublico.append(message.split("CP: ")[1] + "\n");
             chatPublico.setCaretPosition(chatPublico.getDocument().getLength());
         } else if (message.contains("CL")) {
@@ -62,6 +63,12 @@ public class Client extends WebSocketClient {
         cp.iniciado();
         iniciado = true;
         containerLista.setText("");
+    }
+
+    public void finaliza() {
+        lp.finalizado();
+        cp.finalizado();
+        iniciado = false;
     }
 
     @Override

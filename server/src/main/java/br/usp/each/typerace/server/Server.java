@@ -107,15 +107,31 @@ public class Server extends WebSocketServer {
             proxPos++;
             estatisticas.get(id).terminou = true;
         }
+        verificaTerminoPartida();
+    }
+    private void verificaTerminoPartida() {
+        for (String id : estatisticas.keySet()) {
+            if (!estatisticas.get(id).terminou) return;
+        }
+        finalizaJogo();
     }
 
     private void finalizaJogo() {
         tempo = System.currentTimeMillis() - tempo;
         broadcast("CP: Partida encerrada!");
         broadcast("CL: Resultados Finais:");
-        for (String s : estatisticas.keySet()) {
-            Estatisticas e = estatisticas.get(s);
-            broadcast("CL: - " + s + ": " + "Tentativas: " + e.total + ", Acertos: " + e.acertos + ", Erros: " + e.erros);
+        int pos = 1;
+        while (pos < proxPos) {
+            for (String s : estatisticas.keySet()) {
+                Estatisticas e = estatisticas.get(s);
+                if (e.pos == pos) {
+                    broadcast("CL: - " + pos + ": (" + s + ") " + "Tentativas: " + e.total + ", Acertos: " + e.acertos + ", Erros: " + e.erros);
+                    pos++;
+                }
+            }
         }
+        broadcast("CL: duracao da partida (em segundos): " + tempo/1000);
+        proxPos = 1;
+        iniciado = false;
     }
 }
