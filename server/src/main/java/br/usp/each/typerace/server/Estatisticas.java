@@ -1,15 +1,20 @@
 package br.usp.each.typerace.server;
 
+import java.util.*;
+
 public class Estatisticas {
-    String id;
     int total;
     int acertos;
     int erros;
+    int pos;
+    List<String> palavrasRestantes;
+    boolean terminou = false;
     
-    Estatisticas(String id, int total, int acertos, int erros) {
-        this.id = id;
+    Estatisticas(int total, int acertos, int erros, int pos, List<String> palavrasRestantes) {
         this.total = total;
         this.acertos = acertos;
         this.erros = erros;
+        this.pos = pos;
+        this.palavrasRestantes = palavrasRestantes;
     }
 }

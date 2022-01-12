@@ -5,7 +5,6 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import javax.swing.*;
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class Client extends WebSocketClient {
@@ -19,9 +18,6 @@ public class Client extends WebSocketClient {
     private LaunchPage lp;
     private String id;
     private boolean iniciado = false;
-    private int acertos = 0;
-    private int erros = 0;
-    private List<String> palavrasCertas = new LinkedList<>();
 
 
 
@@ -38,20 +34,26 @@ public class Client extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        if (iniciado && message.contains(id)) {
-            chatPublico.append("ACERTO" + acertos);
-            if (message.contains("acertou")) acerto(message);
-            else erros++;
-        }
-        if (message.contains("server: ")) {
+        if (message.contains("CP")) {
             if (message.contains("VAI!")) inicia();
             if (message.contains("Seu id: ")) id = message.split("Seu id: ")[1];
-            if (message.contains("@L: ")) containerLista.append(message.split("@L: ")[1] + "\n");
-            else chatPublico.append(message + "\n");
+            if (message.contains("acertou") && message.contains(id)) removePalavra(message.split(": ")[2]);
+            chatPublico.append(message.split("CP: ")[1] + "\n");
+            chatPublico.setCaretPosition(chatPublico.getDocument().getLength());
+        } else if (message.contains("CL")) {
+            if (message.contains("Resultados Finais:")) containerLista.setText("");
+            containerLista.append(message.split("L: ")[1] + "\n");
+            containerLista.setCaretPosition(containerLista.getDocument().getLength());
         } else {
             chatPublico.append(message + "\n");
+            chatPublico.setCaretPosition(chatPublico.getDocument().getLength());
         }
-        chatPublico.setCaretPosition(chatPublico.getDocument().getLength());
+    }
+
+    public void removePalavra(String message) {
+        String[] newContent = containerLista.getText().split(message);
+        containerLista.setText(newContent[0]);
+        containerLista.append(newContent[1]);
         containerLista.setCaretPosition(containerLista.getDocument().getLength());
     }
 
@@ -60,28 +62,6 @@ public class Client extends WebSocketClient {
         cp.iniciado();
         iniciado = true;
         containerLista.setText("");
-    }
-
-    public void acerto(String message) {
-        String messageC = message.split("\'")[1];
-        if (!palavrasCertas.contains(messageC)) {
-            palavrasCertas.add(messageC);
-            acertos++;
-            containerLista.replaceRange(null, 0, messageC.length()+1);
-            if (acertos == 3) encerra();
-        }
-    }
-
-    public void encerra() {
-        cp.getEntradaMsg().setEditable(false);
-        this.send("RESULTADOS :" +
-                "/" + id +
-                "/" + (acertos+erros) +
-                "/" + acertos +
-                "/" + (erros));
-        containerLista.setText("Parabens voce digitou corretamente todas as palavras!\n" +
-                "Assim que todos os outros participantes terminarem\n" +
-                "os resultados aparecerao aqui.");
     }
 
     @Override
