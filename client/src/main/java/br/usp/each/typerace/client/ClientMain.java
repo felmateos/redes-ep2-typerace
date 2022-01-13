@@ -26,7 +26,7 @@ public class ClientMain {
         LaunchPage lp = new LaunchPage(endereco);
 
         while (lp.lwsc.isEmpty()){
-            System.out.println("");
+           // System.out.println("");
         };
         System.out.println("Cliente Conectado");
 

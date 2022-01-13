@@ -10,11 +10,10 @@ import java.util.*;
 public class Server extends WebSocketServer {
 
     private final Map<String, WebSocket> connections;
-    private final List<String> palavras = new ArrayList<>(Arrays.asList("a","b","c"));
+    private final List<String> palavras = new ArrayList<>(Arrays.asList("alfabeto","bela","cachorro","respeito","amigos","felicidade","entretenimento","otorrinolaringologista","inconstitucionalissimamente","pneu","covid","jobson","futebol","basquete","volei","computador","mouse","teclado"));
     private Map <String, Estatisticas> estatisticas = new HashMap<>();
     private boolean iniciado = false;
     private long tempo;
-    private int proxPos = 1;
 
     public Server(int port, Map<String, WebSocket> connections) {
         super(new InetSocketAddress(port));
@@ -102,16 +101,8 @@ public class Server extends WebSocketServer {
         } else estatisticas.get(id).erros++;
         estatisticas.get(id).total++;
         if (estatisticas.get(id).palavrasRestantes.isEmpty()) {
-            estatisticas.get(id).pos = proxPos;
-            proxPos++;
-            estatisticas.get(id).terminou = true;
+            finalizaJogo();
         }
-        verificaTerminoPartida();
-    }
-    private void verificaTerminoPartida() {
-        for (String id : estatisticas.keySet())
-            if (!estatisticas.get(id).terminou) return;
-        finalizaJogo();
     }
 
     private void finalizaJogo() {
@@ -119,18 +110,18 @@ public class Server extends WebSocketServer {
         broadcast("CP: Partida encerrada!");
         broadcast("CL: Resultados Finais:");
         int pos = 1;
-        while (pos < proxPos) {
-            for (String s : estatisticas.keySet()) {
-                Estatisticas e = estatisticas.get(s);
-                if (e.pos == pos) {
-                    broadcast("CL: - " + pos + ": (" + s + ") " + "Tentativas: " + e.total + ", Acertos: " + e.acertos + ", Erros: " + e.erros);
-                    pos++;
-                }
+
+        Map.Entry<String, Estatisticas> ma = null;
+
+        while (!estatisticas.isEmpty()) {
+            for (Map.Entry<String, Estatisticas> atual : estatisticas.entrySet()) {
+                if (ma == null || atual.getValue().acertos > ma.getValue().acertos)
+                    ma = atual;
             }
-            estatisticas.clear();
+            broadcast("CL: - " + pos + ": (" + ma.getKey() + ") " + "Tentativas: " + ma.getValue().total + ", Acertos: " + ma.getValue().acertos + ", Erros: " + ma.getValue().erros);
+            pos++;
+            estatisticas.remove(ma.getKey());
+            ma = null;
         }
-        broadcast("CL: duracao da partida (em segundos): " + tempo/1000);
-        proxPos = 1;
-        iniciado = false;
     }
 }
