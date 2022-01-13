@@ -126,6 +126,7 @@ public class Server extends WebSocketServer {
                     pos++;
                 }
             }
+            estatisticas.clear();
         }
         broadcast("CL: duracao da partida (em segundos): " + tempo/1000);
         proxPos = 1;

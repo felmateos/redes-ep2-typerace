@@ -88,7 +88,7 @@ public class LaunchPage extends JFrame implements ActionListener {
                 "regras:\n" +
                 " - Assim que for dado sinal para iniciar a partida, \nsera iniciada uma contagem regressiva de\n3 segundos e uma lista de palavras sera exibida na\nparte superior da interface;\n\n" +
                 " - O usuario deve digitar corretamente as palavras\nno menor tempo possivel, na ordem que\ndesejar;\n\n" +
-                " - Assim que todos os usuarios digitarem todas as\nsuas respectivas palavras, no mesmo compartimento\nque se encontrava a lista, aparecerao\nos resultados da partida;\n\n"
+                " - Assim que todos os usuarios digitarem todas as\nsuas respectivas palavras, no mesmo compartimento\nque se encontrava a lista aparecerao\nos resultados da partida;\n\n"
                 );
         rulesContainer.setEditable(false);
         scroll.setViewportView(rulesContainer);
