@@ -9,7 +9,7 @@ Repositório para o EP2 de Redes de Computadores, EACH-USP - 2021/2
 
 ## Regras
 
-*Instrucoes:
+* Instrucoes:
  - Clique no botao "Novo Jogador" para abrir a
 interface do usuario (Voce pode gerar quantas
 quiser para testar);
@@ -22,7 +22,7 @@ ws://localhost:3004);
 dar inicio a partida enviando a mensagem
  "start" (sem as aspas);
 
-*Regras:
+* Regras:
  - Assim que for dado sinal para iniciar a partida, 
 sera iniciada uma contagem regressiva de
 3 segundos e uma lista de palavras sera exibida na
