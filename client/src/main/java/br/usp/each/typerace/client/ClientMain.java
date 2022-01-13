@@ -24,7 +24,6 @@ public class ClientMain {
         String endereco = "ws://localhost:3004";
 
         LaunchPage lp = new LaunchPage(endereco);
-        //new ClientPage(endereco, lp);
 
         while (lp.lwsc.isEmpty()){
             System.out.println("");

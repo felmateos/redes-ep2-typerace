@@ -62,7 +62,8 @@ public class Server extends WebSocketServer {
 
     public void verificaMensagem(WebSocket conn, String message) {
         String id = conn.toString().split("@")[1];
-        String messageC = message.split(": ")[1];
+        String messageC = message;
+        if (message.split(": ")[1] != null) messageC = message.split(": ")[1];
         if (!iniciado && messageC.equals("start")) iniciaPartida();
         else if (iniciado && !estatisticas.get(id).terminou)
             atualizaEstatisticas(id, messageC, estatisticas.get(id).palavrasRestantes.contains(messageC));
