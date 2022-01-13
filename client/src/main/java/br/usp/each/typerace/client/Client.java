@@ -17,9 +17,6 @@ public class Client extends WebSocketClient {
     private ClientPage cp;
     private LaunchPage lp;
     private String id;
-    private boolean iniciado = false;
-
-
 
     public Client(URI serverUri, ClientPage cp, LaunchPage lp) {
         super(serverUri);
@@ -61,14 +58,12 @@ public class Client extends WebSocketClient {
     public void inicia() {
         lp.iniciado();
         cp.iniciado();
-        iniciado = true;
         containerLista.setText("");
     }
 
     public void finaliza() {
         lp.finalizado();
         cp.finalizado();
-        iniciado = false;
     }
 
     @Override

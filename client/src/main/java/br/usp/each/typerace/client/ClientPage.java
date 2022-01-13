@@ -178,6 +178,7 @@ public class ClientPage extends JFrame implements ActionListener {
     }
 
     public void sair() {
+        lp.lwsc.remove(cliente);
         cliente.close();
         entradaNome.setEditable(true);
         sair.setBackground(disabledRed);
